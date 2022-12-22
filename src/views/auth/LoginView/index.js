@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router';
 import {
   Avatar,
@@ -8,7 +8,7 @@ import {
   CardContent,
   Typography,
   colors,
-  makeStyles
+  makeStyles, Button
 } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import Page from 'src/components/Page';
@@ -54,11 +54,18 @@ const useStyles = makeStyles((theme) => ({
 function LoginView() {
   const classes = useStyles();
   const history = useHistory();
+  
+  const [loginDes, setLoginDes] = useState('...popo');
 
   const handleSubmitSuccess = () => {
     history.push('/app');
   };
-
+  
+  const testButtonClicked = () => {
+    console.log('Youpiiiii');
+    setLoginDes('Login to our application please');
+  };
+  
   return (
     <Page
       className={classes.root}
@@ -80,10 +87,21 @@ function LoginView() {
               variant="subtitle1"
               color="textSecondary"
             >
-              Sign in on the internal platform
+              {loginDes}
             </Typography>
             <Box mt={3}>
               <LoginForm onSubmitSuccess={handleSubmitSuccess} />
+            </Box>
+            <Box mt={2}>
+              <Button
+                color="secondary"
+                fullWidth
+                size="large"
+                variant="contained"
+                onClick={testButtonClicked}
+              >
+                Test
+              </Button>
             </Box>
           </CardContent>
         </Card>
