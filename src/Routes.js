@@ -10,7 +10,7 @@ import {
   Redirect
 } from 'react-router-dom';
 import LoadingScreen from 'src/components/LoadingScreen';
-//import BasicLayout from 'src/layouts/BasicLayout';
+import BasicLayout from 'src/layouts/BasicLayout';
 import AuthGuard from 'src/components/AuthGuard';
 import GuestGuard from 'src/components/GuestGuard';
 
@@ -29,13 +29,18 @@ const routesConfig = [
   {
     path: '/app',
     guard: AuthGuard,
-    //layout: BasicLayout,
+    layout: BasicLayout,
     routes: [
       {
         exact: true,
         path: '/app/users',
         component: lazy(() => import('src/views/users'))
-      }
+      },
+      {
+        exact: true,
+        path: '/app/update-user/:id',
+        component: lazy(() => import('src/views/update-user'))
+      },
     ]
   },
   {
