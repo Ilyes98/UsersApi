@@ -36,6 +36,7 @@ const routesConfig = [
         path: '/app/users',
         component: lazy(() => import('src/views/users'))
       },
+     
       {
         exact: true,
         path: '/app/update-user/:id',
