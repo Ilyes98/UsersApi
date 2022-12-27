@@ -54,18 +54,17 @@ const useStyles = makeStyles((theme) => ({
 function LoginView() {
   const classes = useStyles();
   const history = useHistory();
-  
-  const [loginDes, setLoginDes] = useState('...popo');
+
+  const [loginDes, setLoginDes] = useState('...');
 
   const handleSubmitSuccess = () => {
-    history.push('/app');
+    history.push('/app/users');
   };
-  
+
   const testButtonClicked = () => {
-    console.log('Youpiiiii');
-    setLoginDes('Login to our application please');
+    setLoginDes('Login to our application');
   };
-  
+
   return (
     <Page
       className={classes.root}

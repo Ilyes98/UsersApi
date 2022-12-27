@@ -10,6 +10,8 @@ import {
   FormHelperText,
   makeStyles
 } from '@material-ui/core';
+import { login } from 'src/actions/accountActions';
+import { useDispatch } from 'react-redux';
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -17,15 +19,19 @@ const useStyles = makeStyles(() => ({
 
 function LoginForm({ className, onSubmitSuccess, ...rest }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   return (
     <Formik
       initialValues={{
-        email: 'a@gmail.com',
-        password: 'aaabbb'
+        email: 'team1@octicode.app',
+        password: '9oxaf9rhm7'
       }}
       validationSchema={Yup.object().shape({
-        email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
+        email: Yup.string().email('Must be a valid email')
+          .max(255)
+          .min(10)
+          .required('Email is required'),
         password: Yup.string().max(255).required('Password is required')
       })}
       onSubmit={async (values, {
@@ -34,8 +40,7 @@ function LoginForm({ className, onSubmitSuccess, ...rest }) {
         setSubmitting
       }) => {
         try {
-          // Login API request
-          console.log('Login');
+          dispatch(login(values.email, values.password));
           onSubmitSuccess();
         } catch (error) {
           const message = (error.response && error.response.data.message) || 'Something went wrong';

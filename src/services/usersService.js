@@ -1,15 +1,18 @@
 import axios from 'axios';
-import { API_BASE_URL } from 'src/config';
+import { API_BASE_URL_SEC } from 'src/config';
+import authService from './authService';
 
 class UsersService {
   listUsers = () => new Promise((resolve, reject) => {
     axios({
       method: 'GET',
-      url: `${API_BASE_URL}/users`,
-      // headers: {}
+      url: `${API_BASE_URL_SEC}/v1/users?limit=300`,
+      headers: {
+        'x-access-token': authService.getAccessToken(),
+      },
     })
       .then((res) => {
-        resolve(res.data);
+        resolve(res.data.data.users);
       })
       .catch((err) => {
         reject(err);

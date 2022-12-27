@@ -16,6 +16,10 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import useSettings from 'src/hooks/useSettings';
 import { createTheme } from 'src/theme';
 import Routes from 'src/Routes';
+import Auth from 'src/components/Auth';
+import CookiesNotification from 'src/components/CookiesNotification';
+//import GoogleAnalytics from 'src/components/GoogleAnalytics';
+import { UserContextProvider } from 'src/context/UserContext';
 
 const history = createBrowserHistory();
 const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
@@ -55,7 +59,12 @@ function App() {
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <SnackbarProvider maxSnack={1}>
             <Router history={history}>
-              <Routes />
+              <UserContextProvider>
+                <Auth>
+                  <CookiesNotification />
+                  <Routes />
+                </Auth>
+              </UserContextProvider>
             </Router>
           </SnackbarProvider>
         </MuiPickersUtilsProvider>

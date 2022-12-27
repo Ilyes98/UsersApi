@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import {
   Dialog,
   DialogTitle,
@@ -8,14 +9,19 @@ import {
   DialogActions,
   Button
 } from '@material-ui/core';
+import usersService from 'src/services/usersService';
 
-function UserModal({
-  open,
-  handleClose,
-  userProfile,
-  className,
-  ...rest
-}) {
+function UserModal({ open, handleClose, userProfile, className, ...rest }) {
+  const history = useHistory();
+
+  const handleOnUpdateClick = () => {
+    history.push(`/app/update-user/${userProfile.id}`);
+  }
+  const handleOnDeleteClick = () => {
+    usersService.deleteUser(userProfile.id)
+      .then(() => history.go(0))
+  }
+
   return (
     <Dialog
       open={open}
@@ -24,15 +30,21 @@ function UserModal({
       aria-describedby="alert-dialog-description"
       {...rest}
     >
-      <DialogTitle id="alert-dialog-title">{userProfile.name}</DialogTitle>
+      <DialogTitle id="alert-dialog-title">
+        {userProfile.firstName} {userProfile.lastName}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          {userProfile.username}
+          {userProfile.phoneNumber}
           <br />
-          {userProfile.phone}
-          <br />
-          {userProfile.companyName}
+          {userProfile.city}
         </DialogContentText>
+        <Button onClick={handleOnUpdateClick}>
+          Update
+        </Button>
+        <Button onClick={handleOnDeleteClick}>
+          Delete
+        </Button>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">
@@ -47,7 +59,7 @@ UserModal.propTypes = {
   className: PropTypes.string,
   open: PropTypes.bool,
   handleClose: PropTypes.func,
-  userProfile: PropTypes.object,
+  userProfile: PropTypes.object
 };
 
 export default UserModal;
